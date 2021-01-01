@@ -1,5 +1,6 @@
 # GoWebScraping
 A web scraping in golang
 
-# Phase  
+# Phases  
 1 - Init project
+2 - Read homepage of jeuxvideo.com 

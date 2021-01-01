@@ -1,9 +1,9 @@
 package main
 
-import (
-	"fmt"
-)
 
 func main(){
-	fmt.Println("Project init")
+	httpManager := httpManager{
+		url : "https://www.jeuxvideo.com",
+	}
+	httpManager.getContentPage()
 }

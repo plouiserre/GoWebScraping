@@ -25,7 +25,7 @@ func (httpManager *httpManager) getContentPage(){
 	}
 }
 
-func (httpManager httpManager) readGetResult(resp *http.Response){
+func (httpManager *httpManager) readGetResult(resp *http.Response){
 
 	defer resp.Body.Close()
 	
@@ -35,7 +35,5 @@ func (httpManager httpManager) readGetResult(resp *http.Response){
 		fmt.Println("Something bad happen")
 	}else {
 		httpManager.contentPage = html
-		fmt.Println("Content of the page !!!")
-		fmt.Printf("%s\n", httpManager.contentPage)
 	}
 }

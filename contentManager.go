@@ -1,7 +1,6 @@
 package main 
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 )
@@ -16,7 +15,7 @@ func (contentManager *contentManager) GetLinks(){
 	content := string(contentManager.contentPage)
 	
 	//TODO must be in configuration file
-	contentManager.forbiddenExtension = []string{".png",".css",".woff"}
+	contentManager.forbiddenExtension = []string{".png",".css",".woff",".json"}
 	
 	substract := regexp.MustCompile("href=\"(.*?)\"")
 	resultHref := substract.FindAllString(content, -1)
@@ -24,25 +23,32 @@ func (contentManager *contentManager) GetLinks(){
 	for _, href := range resultHref {
 		contentManager.CheckLinks(href)
 	}
-
-	occurenceHref := len(contentManager.links)
-	fmt.Println("occurence of hrefContent ",occurenceHref)
 }
 
 func (contentManager *contentManager) CheckLinks(href string){
-	isAutorized := true
+	isNotForbiddenExtension := true
 	
 	for _, extension := range contentManager.forbiddenExtension{
-		isAutorized =  !strings.Contains(href, extension)
-		if !isAutorized{
+		isNotForbiddenExtension =  !strings.Contains(href, extension)
+		
+		if !isNotForbiddenExtension{
 			break;
 		}
 	}
 
-	if isAutorized{
+	if isNotForbiddenExtension{
 		href = strings.Replace(href,"href=\"","",-1)
 		href = strings.Replace(href,"\"","",-1)
-		contentManager.links = append(contentManager.links, href)	
+		
+		
+		letters := []rune(href)
+		if len(letters)>0{
+			isLinkAutorized := letters[0] == '/'
+			
+			if isLinkAutorized{
+				contentManager.links = append(contentManager.links, href)	
+			}
+		}
 	}
 }
 

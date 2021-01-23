@@ -2,15 +2,7 @@ package main
 
 
 func main(){
-	httpManager := httpManager{
-		//TODO must be in configuration file
-		url : "https://www.jeuxvideo.com",
-	}
-	httpManager.getContentPage()
+	websiteManager := websiteManager{}
+	websiteManager.scrollWebSite()
 
-	contentManager := contentManager{
-		contentPage : httpManager.contentPage,
-	}
-
-	contentManager.GetLinks()
 }

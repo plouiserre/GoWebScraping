@@ -1,7 +1,6 @@
 package main 
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 )
@@ -24,9 +23,6 @@ func (contentManager *contentManager) GetLinks(){
 	for _, href := range resultHref {
 		contentManager.CheckLinks(href)
 	}
-
-	occurenceHref := len(contentManager.links)
-	fmt.Println("occurence of hrefContent ",occurenceHref)
 }
 
 func (contentManager *contentManager) CheckLinks(href string){

@@ -16,7 +16,7 @@ func (httpManager *httpManager) getContentPage(){
 		resp, err := http.Get(httpManager.url)
 
 		if err != nil {
-			fmt.Println("Something bad happen")
+			fmt.Println("error ", err)
 		} else {
 			httpManager.readGetResult(resp)
 		}

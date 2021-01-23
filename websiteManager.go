@@ -11,8 +11,8 @@ type websiteManager struct {
 func (websiteManager *websiteManager) scrollWebSite (){
 	i := 0
 	//TODO must be in configuration file
-	//webSiteAnalyse := "https://www.jeuxvideo.com"
-	webSiteAnalyse := "https://vuejs.org/"
+	webSiteAnalyse := "https://www.jeuxvideo.com"
+	//webSiteAnalyse := "https://vuejs.org"
 	websiteManager.allLinks = append(websiteManager.allLinks, webSiteAnalyse)
 
 	for i< len(websiteManager.allLinks){	
@@ -27,11 +27,11 @@ func (websiteManager *websiteManager) scrollWebSite (){
 
 		contentManager.GetLinks()
 		for _, link := range  contentManager.links{
-			fmt.Println("lien étudié ", link)
+			linkStudy := webSiteAnalyse+link
 			//websiteManager.allLinks = append(websiteManager.allLinks, contentManager.links...)
-			contains := websiteManager.containsLink(link)
+			contains := websiteManager.containsLink(linkStudy)
 			if contains == false {
-				websiteManager.allLinks = append(websiteManager.allLinks, link)
+				websiteManager.allLinks = append(websiteManager.allLinks, linkStudy)
 			}
 		}
 		fmt.Println("liens enregistrés ", len(websiteManager.allLinks))

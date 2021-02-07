@@ -1,0 +1,5 @@
+{
+    "WebSiteAnalyse" : "https://vuejs.org",
+	"LogFile" : "/Users/plouiserre/Desktop/logs.txt",
+    "ForbiddenExtensions" : [".png",".css",".woff",".json"]
+}

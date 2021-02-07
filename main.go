@@ -2,13 +2,11 @@ package main
 
 func main(){
 	//TODO must be in configuration file
-	//webSiteAnalyse := "https://www.jeuxvideo.com"
-	webSiteAnalyse := "https://vuejs.org"
-	logFile := "/Users/plouiserre/Desktop/logs.txt"
-
+	confManager := Configuration{}
+	conf := confManager.readConf()
 
 	log := new(logManager)
-	log.logFile = logFile
+	log.logFile = conf.LogFile
 
 	log.initLog()
 
@@ -16,8 +14,9 @@ func main(){
 
 	websiteManager := websiteManager{
 		log : log,
+		conf : conf,
 	}
-	websiteManager.scrollWebSite(webSiteAnalyse)
+	websiteManager.scrollWebSite(conf.WebSiteAnalyse)
 
 	log.writeLog("*---------------End process---------------*","info")
 }

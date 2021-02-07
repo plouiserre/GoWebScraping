@@ -4,6 +4,7 @@ package main
 type websiteManager struct {
 	allLinks []string
 	log *logManager
+	conf Configuration
 }
 
 func (websiteManager *websiteManager) scrollWebSite (website string){
@@ -20,19 +21,18 @@ func (websiteManager *websiteManager) scrollWebSite (website string){
 
 		contentManager := contentManager{
 			contentPage : httpManager.contentPage,
+			conf : websiteManager.conf,
 		}
 
 		contentManager.GetLinks()
 		for _, link := range  contentManager.links{
 			linkStudy := website+link
-			//websiteManager.allLinks = append(websiteManager.allLinks, contentManager.links...)
 			contains := websiteManager.containsLink(linkStudy)
 			if contains == false {
 				websiteManager.log.writeLog("nouveau lien enregistré "+linkStudy,"info")
 				websiteManager.allLinks = append(websiteManager.allLinks, linkStudy)
 			}
 		}
-		//websiteManager.log.writeLog("liens enregistrés "+ strconv.Itoa(len(websiteManager.allLinks)))
 		i ++
 	}
 }

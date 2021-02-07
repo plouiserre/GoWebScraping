@@ -9,13 +9,14 @@ type contentManager struct {
 	contentPage []byte	
 	links []string
 	forbiddenExtension []string
+	conf Configuration
 }
 
 func (contentManager *contentManager) GetLinks(){
 	content := string(contentManager.contentPage)
 	
 	//TODO must be in configuration file
-	contentManager.forbiddenExtension = []string{".png",".css",".woff",".json"}
+	contentManager.forbiddenExtension = contentManager.conf.ForbiddenExtensions
 	
 	substract := regexp.MustCompile("href=\"(.*?)\"")
 	resultHref := substract.FindAllString(content, -1)

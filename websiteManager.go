@@ -1,23 +1,20 @@
 package main 
 
-import(
-	"fmt"
-)
 
 type websiteManager struct {
 	allLinks []string
+	log *logManager
 }
 
-func (websiteManager *websiteManager) scrollWebSite (){
+func (websiteManager *websiteManager) scrollWebSite (website string){
 	i := 0
-	//TODO must be in configuration file
-	webSiteAnalyse := "https://www.jeuxvideo.com"
-	//webSiteAnalyse := "https://vuejs.org"
-	websiteManager.allLinks = append(websiteManager.allLinks, webSiteAnalyse)
+
+	websiteManager.allLinks = append(websiteManager.allLinks, website)
 
 	for i< len(websiteManager.allLinks){	
 		httpManager := httpManager{
 			url : websiteManager.allLinks[i],
+			logManager : websiteManager.log,
 		}
 		httpManager.getContentPage()
 
@@ -27,14 +24,15 @@ func (websiteManager *websiteManager) scrollWebSite (){
 
 		contentManager.GetLinks()
 		for _, link := range  contentManager.links{
-			linkStudy := webSiteAnalyse+link
+			linkStudy := website+link
 			//websiteManager.allLinks = append(websiteManager.allLinks, contentManager.links...)
 			contains := websiteManager.containsLink(linkStudy)
 			if contains == false {
+				websiteManager.log.writeLog("nouveau lien enregistré "+linkStudy,"info")
 				websiteManager.allLinks = append(websiteManager.allLinks, linkStudy)
 			}
 		}
-		fmt.Println("liens enregistrés ", len(websiteManager.allLinks))
+		//websiteManager.log.writeLog("liens enregistrés "+ strconv.Itoa(len(websiteManager.allLinks)))
 		i ++
 	}
 }

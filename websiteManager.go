@@ -1,6 +1,6 @@
 package main 
 
-
+//TODO à supprimer 
 type websiteManager struct {
 	allLinks []string
 	log *logManager
@@ -13,11 +13,21 @@ func (websiteManager *websiteManager) scrollWebSite (website string){
 	websiteManager.allLinks = append(websiteManager.allLinks, website)
 
 	for i< len(websiteManager.allLinks){	
+		
 		httpManager := httpManager{
 			url : websiteManager.allLinks[i],
 			logManager : websiteManager.log,
 		}
 		httpManager.getContentPage()
+		
+		saveDatas := saveDatas {
+			url : websiteManager.allLinks[i],
+			logManager : websiteManager.log,
+			content : string(httpManager.contentPage),
+			conf : websiteManager.conf,
+		}
+
+		saveDatas.saveWebPage()
 
 		contentManager := contentManager{
 			contentPage : httpManager.contentPage,

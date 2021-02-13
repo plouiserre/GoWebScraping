@@ -10,6 +10,7 @@ type Configuration struct{
 	WebSiteAnalyse string
 	LogFile string
 	ForbiddenExtensions []string
+	SaveWebSite string
 }
 
 func (conf *Configuration) readConf() Configuration{

@@ -1,5 +1,6 @@
 package main
 
+
 func main(){
 	//TODO must be in configuration file
 	confManager := Configuration{}

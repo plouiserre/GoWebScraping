@@ -15,7 +15,6 @@ type contentManager struct {
 func (contentManager *contentManager) GetLinks(){
 	content := string(contentManager.contentPage)
 	
-	//TODO must be in configuration file
 	contentManager.forbiddenExtension = contentManager.conf.ForbiddenExtensions
 	
 	substract := regexp.MustCompile("href=\"(.*?)\"")

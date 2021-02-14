@@ -1,6 +1,10 @@
 package main 
 
-//TODO à supprimer 
+import (
+	"time"
+	"fmt"
+)
+
 type websiteManager struct {
 	allLinks []string
 	log *logManager
@@ -13,15 +17,17 @@ func (websiteManager *websiteManager) scrollWebSite (website string){
 	websiteManager.allLinks = append(websiteManager.allLinks, website)
 
 	for i< len(websiteManager.allLinks){	
+		startAnalyzePage := time.Now()
+		urlPage := websiteManager.allLinks[i]
 		
 		httpManager := httpManager{
-			url : websiteManager.allLinks[i],
+			url : urlPage,
 			logManager : websiteManager.log,
 		}
 		httpManager.getContentPage()
 		
 		saveDatas := saveDatas {
-			url : websiteManager.allLinks[i],
+			url : urlPage,
 			logManager : websiteManager.log,
 			content : string(httpManager.contentPage),
 			conf : websiteManager.conf,
@@ -43,6 +49,13 @@ func (websiteManager *websiteManager) scrollWebSite (website string){
 				websiteManager.allLinks = append(websiteManager.allLinks, linkStudy)
 			}
 		}
+		
+		endAnalyze := time.Since(startAnalyzePage)
+		
+		msg := fmt.Sprintf("urlPage reading in : %s", endAnalyze)
+	
+		websiteManager.log.writeLog(msg,"info")
+
 		i ++
 	}
 }

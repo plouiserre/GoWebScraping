@@ -3,7 +3,6 @@ package main
 import (
 	"strings"
 	"os"
-	"fmt"
 )
 
 type saveDatas struct{
@@ -18,7 +17,6 @@ func (save *saveDatas)saveWebPage(){
 	save.getFileName()
 
 	f, errCreateFile := os.Create(save.completeNameFile)
-	fmt.Println(save.completeNameFile)
 
 	if errCreateFile != nil {
 		save.logManager.writeLog("error "+errCreateFile.Error(),"error")

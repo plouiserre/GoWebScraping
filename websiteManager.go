@@ -12,49 +12,53 @@ type websiteManager struct {
 	index int
 }
 
-type pagesAnalysed struct {
-	count int
-}
+// type pagesAnalysed struct {
+// 	count int
+// }
 
 func (websiteManager *websiteManager) scrollWebSite (website string){
 	i := 0
 
 	websiteManager.allLinks = append(websiteManager.allLinks, website)
 
-	pagesAnalysed := make(chan pagesAnalysed)
+	//pagesAnalysed := make(chan pagesAnalysed)
 
 	for i< len(websiteManager.allLinks){		
-		go websiteManager.analyzeWebPage(website, pagesAnalysed)
-		numberPagedAnalysed := <- pagesAnalysed
-		i = numberPagedAnalysed.count
+		//go websiteManager.analyzeWebPage(website, pagesAnalysed)
+		 websiteManager.analyzeWebPage(website)
+		 i = websiteManager.index
+		//numberPagedAnalysed := <- pagesAnalysed
 	}
 }
 
-func (websiteManager *websiteManager) analyzeWebPage(website string, analyser chan pagesAnalysed){
+func (websiteManager *websiteManager) analyzeWebPage(website string) {
 		startAnalyzePage := time.Now()
 		
 		urlPage := websiteManager.allLinks[websiteManager.index]
 
-		fmt.Println("Début traitement page ", urlPage)
-		
 		httpManager := httpManager{
 			url : urlPage,
 			logManager : websiteManager.log,
 		}
-		httpManager.getContentPage()
+
+		contentPage := make(chan pageReaded)
+
+		go httpManager.getContentPage(contentPage)
+
+		pageStocked := <-  contentPage
 
 		saveDatas := saveDatas {
 			url : urlPage,
 			logManager : websiteManager.log,
-			content : string(httpManager.contentPage),
+			content : string(pageStocked.contentPage),
 			conf : websiteManager.conf,
 		}
 
+		//TODO à mettre aussi dans une go routine
 		saveDatas.saveWebPage()
-
 		
 		contentManager := contentManager{
-			contentPage : httpManager.contentPage,
+			contentPage : pageStocked.contentPage,
 			conf : websiteManager.conf,
 		}
 
@@ -74,12 +78,7 @@ func (websiteManager *websiteManager) analyzeWebPage(website string, analyser ch
 
 		websiteManager.log.writeLog(msg,"info")
 		
-		fmt.Println("fin traitement page ", urlPage)
-		
-		websiteManager.index ++
-		analyser <-  pagesAnalysed {
-			count : websiteManager.index, 
-		}
+		websiteManager.index ++		
 }
 
 func (websiteManager *websiteManager) containsLink(linkSearching string) bool{

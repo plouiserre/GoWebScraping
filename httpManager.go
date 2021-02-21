@@ -11,7 +11,11 @@ type httpManager struct {
 	logManager *logManager
 }
 
-func (httpManager *httpManager) getContentPage(){
+type pageReaded struct {
+	contentPage []byte
+}
+
+func (httpManager *httpManager) getContentPage(reading chan pageReaded){
 	if len(httpManager.url) > 0 {
 		resp, err := http.Get(httpManager.url)
 
@@ -22,6 +26,10 @@ func (httpManager *httpManager) getContentPage(){
 		}
 	} else {
 		httpManager.logManager.writeLog("You must defined an url","error")
+	}
+
+	reading <- pageReaded{
+		contentPage : httpManager.contentPage,
 	}
 }
 

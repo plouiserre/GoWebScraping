@@ -55,7 +55,7 @@ func (websiteManager *websiteManager) analyzeWebPage(website string) {
 		}
 
 		//TODO à mettre aussi dans une go routine
-		saveDatas.saveWebPage()
+		go saveDatas.saveWebPage()
 		
 		contentManager := contentManager{
 			contentPage : pageStocked.contentPage,
